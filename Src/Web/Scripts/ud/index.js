@@ -1,0 +1,17 @@
+﻿import "./components/new-ud";
+import "./components/ud-lien-bank-info";
+import "./components/ud-buyer";
+import "./components/export-lc";
+import "./components/foc-info";
+import "./components/import-lc";
+import "./components/notify-party";
+import "./components/garments-info";
+import "./components/ud-port";
+import "./components/fabric-info";
+import "./components/accessories-info";
+import "./components/other-material";
+import "./components/ud-other-info";
+import "./components/ud-total-fabric";
+import "./components/consumption-info";
+import "./components/print-ud";
+import "./components/ud-upload-doc";

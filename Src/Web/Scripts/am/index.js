@@ -1,0 +1,16 @@
+﻿import "./components/new-am";
+import "./components/am-export-lc";
+import "./components/am-import-lc";
+import "./components/am-garments-info";
+import "./components/am-required";
+import "./components/am-m-column";
+import "./components/am-accessories-info";
+import "./components/am-other-info";
+import "./components/am-dyes-chemical";
+import "./components/am-fabric-info";
+import "./components/am-total-fabric";
+import "./components/am-consumption-info";
+import "./components/am-print";
+import "./components/am-review";
+import "./components/am-upload-doc";
+import "./components/lc-details";

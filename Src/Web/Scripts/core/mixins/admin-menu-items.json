@@ -1,0 +1,92 @@
+﻿{
+  "mainMenu": [
+    {
+      "title": "Information",
+      "id": "info_menu",
+      "submenu_id": "tab_info",
+      "icon": "fas fa-info-circle"
+    },
+    {
+      "title": "UD Dashboard",
+      "id": "ud_menu",
+      "submenu_id": "tab_ud",
+      "icon": "fas fa-cog"
+    }
+  ],
+  "subMenu": [
+    {
+      "tabId": "tab_info",
+      "style": "d-flex",
+      "parentId": "info_menu",
+      "items": [
+        {
+          "title": "Member Info",
+          "id": "info_member",
+          "icon": "fa-id-badge",
+          "href": "/MembershipInfo"
+        },
+        {
+          "title": "User Profile",
+          "id": "info_memberprofile",
+          "icon": "fa-id-card",
+          "href": "/UserProfile"
+        },
+        {
+          "title": "Member Users",
+          "id": "info_credential",
+          "icon": "fa-user-tie",
+          "href": "/MembershipCredential"
+        },
+        {
+          "title": "Factory Selection",
+          "id": "info_factorySelection",
+          "icon": "fa-industry",
+          "href": "/FactorySelection"
+        },
+        {
+          "title": "BGMEA Users",
+          "id": "reviewer_credential",
+          "icon": "fa-user-check",
+          "href": "/UDReviewerCredentials"
+        },
+        {
+          "title": "Service Charge",
+          "id": "service_charge",
+          "icon": "fa-file-invoice-dollar",
+          "href": "/ServiceCharge"
+        },
+        {
+          "title": "Banks",
+          "id": "banks",
+          "icon": "fa-university",
+          "href": "/Bank"
+        },
+        {
+          "title": "Review Privilege",
+          "id": "review_privilege",
+          "icon": "fa-tasks",
+          "href": "/ReviewPrivilege"
+        },
+        {
+          "title": "Transactions",
+          "id": "transactions",
+          "icon": "fa-tasks",
+          "href": "/PaymentRecord"
+        }
+      ]
+    },
+    {
+      "tabId": "tab_ud",
+      "style": "d-flex",
+      "parentId": "ud_menu",
+      "items": [
+        {
+          "title": "Review Details",
+          "id": "",
+          "href": "/Review",
+          "icon": "fas fa-search"
+        }
+      ]
+    }
+  ]
+}

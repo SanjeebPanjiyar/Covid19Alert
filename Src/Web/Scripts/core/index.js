@@ -1,0 +1,12 @@
+import "./components/logs";
+import "./components/menu";
+import "./components/measurement-chart";
+import "./components/payment";
+import "./components/submission";
+import "./validation/decimal";
+import "./validation/maximum";
+import "./components/status-review";
+import "./components/review-queue";
+import "./components/report-filter";
+import "./components/wallet-deposit";
+import "./components/fabric-consumption";

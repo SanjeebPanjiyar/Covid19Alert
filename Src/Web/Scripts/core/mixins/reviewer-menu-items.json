@@ -1,0 +1,88 @@
+﻿{
+  "mainMenu": [
+    {
+      "title": "Information",
+      "id": "info_menu",
+      "submenu_id": "tab_info",
+      "icon": "fas fa-info-circle"
+    },
+    {
+      "title": "Review",
+      "id": "review_menu",
+      "submenu_id": "tab_ud",
+      "icon": "fas fa-file-alt"
+    },
+    {
+      "title": "UD Dashboard",
+      "id": "dashboard_menu",
+      "submenu_id": "tab_dashboard",
+      "icon": "fas fa-tachometer-alt"
+    }
+  ],
+  "subMenu": [
+    {
+      "tabId": "tab_info",
+      "style": "d-flex",
+      "parentId": "info_menu",
+      "items": [
+        {
+          "title": " User Profile",
+          "id": "info_member",
+          "icon": "fa-id-badge",
+          "href": "/UserProfile"
+        }
+      ]
+    },
+    {
+      "tabId": "tab_ud",
+      "style": "d-flex",
+      "parentId": "ud_menu",
+      "items": [
+        {
+          "title": "Review Details",
+          "id": "review_menu",
+          "icon": "fa-file-alt",
+          "href": "/Review"
+        },
+        {
+          "title": "Review Queue",
+          "id": "review_menu",
+          "icon": "fa-recycle",
+          "href": "/Review/Queue"
+        },
+        {
+          "title": "UD Report",
+          "id": "ud_print",
+          "icon": "fa-print",
+          "href": "/UDPrint"
+        }
+      ]
+    },
+    {
+      "tabId": "tab_am",
+      "style": "d-flex",
+      "parentId": "am_menu",
+      "items": [
+        {
+          "title": "AM Report",
+          "id": "am_print",
+          "icon": "fa-print",
+          "href": "/AMPrint"
+        }
+      ]
+    },
+    {
+      "tabId": "tab_dashboard",
+      "style": "d-flex",
+      "parentId": "dashboard_menu",
+      "items": [
+        {
+          "title": "Home",
+          "id": "dashboard",
+          "icon": "fa-home",
+          "href": "/dashboard"
+        }
+      ]
+    }
+  ]
+}
