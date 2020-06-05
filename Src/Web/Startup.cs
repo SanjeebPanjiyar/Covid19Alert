@@ -19,6 +19,9 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 
 namespace Web
 {
@@ -30,6 +33,15 @@ namespace Web
         }
 
         public IConfiguration Configuration { get; }
+
+        private readonly ILoggerFactory _consoleLoggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder
+                .AddFilter((category, level) =>
+                    category == DbLoggerCategory.Database.Command.Name
+                    && level == LogLevel.Information)
+                .AddDebug();
+        });
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -43,7 +55,8 @@ namespace Web
 
             services.AddDbContextPool<AppDbContext>(options =>
             {
-                options.UseSqlServer(Configuration["default_connection_string"]).UseLazyLoadingProxies();
+                options.UseLoggerFactory(_consoleLoggerFactory)
+                    .EnableSensitiveDataLogging().UseSqlServer(Configuration["default_connection_string"]).UseLazyLoadingProxies();
             });
 
             
@@ -117,6 +130,16 @@ namespace Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.MSSqlServer(
+                    connectionString: Configuration["default_connection_string"],
+                    tableName: "Logs",
+                    autoCreateSqlTable: true
+                )
+                .MinimumLevel.Warning()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
+                .ReadFrom.Configuration(Configuration).CreateLogger();
 
             app.UseRouting();
             app.UseSession();
