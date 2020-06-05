@@ -14,7 +14,7 @@ namespace Core.Entities
         public string FirstName { get; set; }
         [StringLength(50)]
         public string LastName { get; set; }
-        public bool? IsActive { get; set; }
+        public string IdNumber { get; set; }
         public bool? IsDeleted { get; set; }
 
         [Column(TypeName = "datetime")]

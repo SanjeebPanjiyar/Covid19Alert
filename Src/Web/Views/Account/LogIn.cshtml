@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewData["Title"] = "LogIn";
+}
+
+<section class="w-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 col-md-8 col-12 m-auto px-0 py-3  rounded shadow border bg-white">
+                <div class="p-3">
+                    <h1 class="mb-2 text-center">
+                        Covid19 Alert System
+                    </h1>
+                    <h2 class="mb-1 text-center">
+                        Login
+                    </h2>
+                    <div class="main-card mb-3">
+                        <form>
+                            <div class="position-relative form-group">
+                                <label class="font-weight-bold">Email</label>
+                                <input placeholder="Username" type="text" class="form-control" required />
+                            </div>
+                            <div class="position-relative form-group">
+                                <label class="font-weight-bold">Passwrd</label>
+                                <input placeholder="Password" type="password" class="form-control" required />
+                            </div>
+                            @*@if (ViewBag.InvalidLogin)
+                {
+                    <div class="text-danger p-2">
+                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                        Invalid credentials!
+                    </div>
+                }*@
+
+                            <div asp-validation-summary="All" class="text-danger p-2"></div>
+
+                            <button type="submit" class="mt-1 btn btn-fluid no__border-radius btn-primary shadow">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

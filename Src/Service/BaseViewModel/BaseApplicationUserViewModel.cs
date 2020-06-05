@@ -22,10 +22,5 @@ namespace Infrastructure.BaseViewModel
         public string Role { get; set; }
         public string RoleName { get; set; }
         public Guid? RoleId { get; set; }
-        public bool IsUserBonderSame { get; set; }
-        public string Signature { get; set; }
-        public string Designation { get; set; }
-        public int? ZoneInfoId { get; set; }
-        public string MembershipID { get; set; }
     }
 }

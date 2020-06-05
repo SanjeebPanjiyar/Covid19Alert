@@ -36,6 +36,11 @@ namespace Infrastructure.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<ApplicationUser>(b =>
             {
+                b.HasIndex(u => u.Email).IsUnique();
+                b.HasIndex(u => u.PhoneNumber).IsUnique();
+                b.HasIndex(u => u.IdNumber).IsUnique();
+                b.Property(u => u.PhoneNumberConfirmed).HasDefaultValue(true);
+                b.Property(u => u.EmailConfirmed).HasDefaultValue(true);
                 // Each User can have many entries in the UserRole join table
                 b.HasMany(e => e.UserRoles)
                     .WithOne(e => e.User)
