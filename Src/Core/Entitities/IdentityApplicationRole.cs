@@ -19,6 +19,5 @@ namespace Core.Entitities
         public bool? IsMember { get; set; }
 
         public virtual ICollection<AspNetUserRole> UserRoles { get; set; }
-        public virtual ICollection<ApplicationRoleClaim> RoleClaims { get; set; }
     }
 }

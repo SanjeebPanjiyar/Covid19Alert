@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Entitities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,8 +14,8 @@ namespace Infrastructure.Data
     public partial class AppDbContext : IdentityDbContext
     <
         ApplicationUser, IdentityApplicationRole, Guid,
-        ApplicationUserClaim, AspNetUserRole, ApplicationUserLogin,
-        ApplicationRoleClaim, ApplicationUserToken
+        IdentityUserClaim<Guid>, AspNetUserRole, IdentityUserLogin<Guid>,
+        IdentityRoleClaim<Guid>, IdentityUserToken<Guid>
     >
     {
         
@@ -34,24 +35,6 @@ namespace Infrastructure.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<ApplicationUser>(b =>
             {
-                // Each User can have many UserClaims
-                b.HasMany(e => e.Claims)
-                    .WithOne(e => e.User)
-                    .HasForeignKey(uc => uc.UserId)
-                    .IsRequired();
-
-                // Each User can have many UserLogins
-                b.HasMany(e => e.Logins)
-                    .WithOne(e => e.User)
-                    .HasForeignKey(ul => ul.UserId)
-                    .IsRequired();
-
-                // Each User can have many UserTokens
-                b.HasMany(e => e.Tokens)
-                    .WithOne(e => e.User)
-                    .HasForeignKey(ut => ut.UserId)
-                    .IsRequired();
-
                 // Each User can have many entries in the UserRole join table
                 b.HasMany(e => e.UserRoles)
                     .WithOne(e => e.User)
@@ -65,12 +48,6 @@ namespace Infrastructure.Data
                 b.HasMany(e => e.UserRoles)
                     .WithOne(e => e.Role)
                     .HasForeignKey(ur => ur.RoleId)
-                    .IsRequired();
-
-                // Each Role can have many associated RoleClaims
-                b.HasMany(e => e.RoleClaims)
-                    .WithOne(e => e.Role)
-                    .HasForeignKey(rc => rc.RoleId)
                     .IsRequired();
             });
            
