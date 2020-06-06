@@ -2,6 +2,7 @@
 using Core.Entitities;
 using Infrastructure.BaseViewModel;
 using Microsoft.AspNetCore.Identity;
+using Service.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,7 @@ namespace Service.UserService
     {
         private readonly RoleManager<IdentityApplicationRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
-
+        private readonly SignInManager<ApplicationUser> _signInManager;
         public UserDataService(RoleManager<IdentityApplicationRole> roleManager,
             UserManager<ApplicationUser> userManager)
         {
@@ -48,6 +49,29 @@ namespace Service.UserService
             }
             return result;
 
+        }
+
+        public async Task<ApplicationUser> GetUserByEmail(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<LoginEnum> SigninUser(string email, string password)
+        {
+            var user = await GetUserByEmail(email);
+            
+            if (user != null)
+            {
+                if (await _userManager.CheckPasswordAsync(user, password))
+                {
+                    await _signInManager.SignInAsync(user, true);
+                    return LoginEnum.Successful;
+                }
+                else
+                    return LoginEnum.PasswordMismatch;
+            }
+            
+            return LoginEnum.EmailNotFound;
         }
     }
 }

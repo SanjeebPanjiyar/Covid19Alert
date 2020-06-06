@@ -29,6 +29,13 @@ namespace Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] BaseLoginViewModel user)
+        {
+            await _userDataService.SigninUser(user.EmailAddress, user.Password);
+            return Ok();
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Registration()
@@ -40,7 +47,7 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] BaseApplicationUserViewModel user)
         {
-            await _userDataService.CreateUser(user, ConstantKey.AdminRoleName);
+            await _userDataService.CreateUser(user, ConstantKey.GeneralRoleName);
             return Ok();
         }
     }

@@ -18,12 +18,8 @@ export default {
     data() {
         return {
             model: {},
-            list: {},
-            filterBy: null,
-            selectedItem: null,
-            errors: {},
-            defaultModel: {}
-        }
+            errors: {}
+        };
     },
 
     methods: {

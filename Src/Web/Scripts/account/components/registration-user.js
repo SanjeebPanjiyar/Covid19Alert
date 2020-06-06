@@ -1,8 +1,5 @@
 ﻿import Vue from "vue";
 import axios from "axios";
-import { format } from "date-fns";
-import form from "../../core/mixins/form";
-
 
 Vue.component("registration-user", {
     data() {
