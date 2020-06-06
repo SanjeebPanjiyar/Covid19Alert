@@ -20,6 +20,8 @@ namespace Infrastructure.Data
     {
         public virtual DbSet<Logs> Logs { get; set; }
 
+        public virtual DbSet<UserLocation> Locations { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
@@ -45,6 +47,11 @@ namespace Infrastructure.Data
                 b.HasMany(e => e.UserRoles)
                     .WithOne(e => e.User)
                     .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
+
+                b.HasOne(e => e.Location)
+                    .WithOne(e => e.User)
+                    .HasForeignKey<UserLocation>(ur => ur.UserId)
                     .IsRequired();
             });
 

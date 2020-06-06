@@ -22,6 +22,7 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
+using Service.UserService;
 
 namespace Web
 {
@@ -43,23 +44,21 @@ namespace Web
                 .AddDebug();
         });
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        private void AddDefaultService(IServiceCollection services)
         {
-            services.AddLogging();
-            services.AddSession();
+            services.AddScoped<IRepository, GenericRepository>();
+            services.AddScoped<IUserDataService, UserDataService>();
+        }
 
-            services.AddControllersWithViews();
-
-            #region Database & Identity
-
+        private void configureDatabaseAndIdentity(IServiceCollection services)
+        {
             services.AddDbContextPool<AppDbContext>(options =>
             {
                 options.UseLoggerFactory(_consoleLoggerFactory)
-                    .EnableSensitiveDataLogging().UseSqlServer(Configuration["default_connection_string"]).UseLazyLoadingProxies();
+                    .EnableSensitiveDataLogging().UseSqlServer(Configuration["default_connection_string"], x => x.UseNetTopologySuite()).UseLazyLoadingProxies();
             });
 
-            
+
             services
              .AddIdentity<ApplicationUser, IdentityApplicationRole>()
              .AddEntityFrameworkStores<AppDbContext>()
@@ -92,11 +91,17 @@ namespace Web
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.Cookie.Expiration = TimeSpan.FromMinutes(60);
             });
+        }
 
-            #endregion
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddLogging();
+            services.AddSession();
 
-            services.AddScoped<IRepository, GenericRepository>();
-
+            services.AddControllersWithViews();
+            configureDatabaseAndIdentity(services);
+            AddDefaultService(services);
             services.AddAutoMapper(typeof(Startup));
             services.AddCors();
             services.AddHttpContextAccessor();

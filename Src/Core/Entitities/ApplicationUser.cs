@@ -23,5 +23,8 @@ namespace Core.Entities
         [Column(TypeName = "datetime")]
         public DateTime? LastLoginDate { get; set; }
         public virtual ICollection<AspNetUserRole> UserRoles { get; set; }
+
+        public virtual UserLocation Location { get; set;}
+
     }
 }

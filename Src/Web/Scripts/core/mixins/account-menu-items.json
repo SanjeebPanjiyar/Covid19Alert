@@ -1,0 +1,23 @@
+﻿{
+  "mainMenu": [
+    {
+      "title": "Account",
+      "id": "sys_menu",
+      "submenu_id": "tab_sys",
+      "icon": "fa fa-cog"
+    }
+  ],
+  "subMenu": [
+    {
+      "tabId": "tab_sys",
+      "parentId": "sys_menu",
+      "items": [
+        {
+          "title": "Wallet Deposit",
+          "href": "/Wallet/Deposit",
+          "icon": "fa-wallet"
+        }
+      ]
+    }
+  ]
+}

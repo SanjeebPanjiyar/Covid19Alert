@@ -26,10 +26,9 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "datatables.net-bs4/css/dataTables.bootstrap4.css";
 import "datatables.net-select-bs4/css/select.bootstrap4.css";
-//import "../Content/main.scss";
 
-//import "./core";
-
+import "./core";
+import "./account";
 
 extend("min", { ...min, message: en.messages["min"] });
 extend("max", { ...max, message: en.messages["max"] });
