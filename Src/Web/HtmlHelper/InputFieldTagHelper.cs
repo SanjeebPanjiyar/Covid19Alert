@@ -8,13 +8,20 @@ namespace Web.HtmlHelper
 {
     public class InputFieldTagHelper : BaseTagHelper
     {
-        public string Type { get; set; } = "text";
+        public string Type { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "input";
 
-            output.Attributes.SetAttribute("type", Type);
+            if (string.IsNullOrEmpty(Type))
+            {
+                output.Attributes.SetAttribute("type", "text");
+            }
+            else
+            {
+                output.Attributes.SetAttribute("type", Type);
+            }
 
             if (!string.IsNullOrEmpty(VModel))
             {
@@ -38,7 +45,12 @@ namespace Web.HtmlHelper
 
             if (!string.IsNullOrEmpty(Rules))
             {
-                output.PreElement.AppendHtml(string.Format("<validation-provider v-slot=\"{{errors}}\" rules=\"{0}\" name=\"{1}\">", Rules, Name));
+                output.PreElement.AppendHtml(string.Format("<validation-provider v-slot=\"{{errors}}\" rules=\"{0}\" name=\"{1}\"", Rules, Name));
+                if (!string.IsNullOrEmpty(Vid))
+                {
+                    output.PreElement.AppendHtml($" vid=\"{Vid}\"");
+                }
+                output.PreElement.AppendHtml(">");
                 output.PostElement.AppendHtml("<span class=\"required-field-message\" v-text=\"errors[0]\"></span>");
                 output.PostElement.AppendHtml("</validation-provider>");
             }

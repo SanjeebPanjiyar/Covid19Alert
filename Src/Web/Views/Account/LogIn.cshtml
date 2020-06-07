@@ -14,29 +14,28 @@
                     <h2 class="mb-1 text-center">
                         Login
                     </h2>
-                    <div class="main-card mb-3">
-                        <form>
-                            <div class="position-relative form-group">
-                                <label class="font-weight-bold">Email</label>
-                                <input placeholder="Username" type="text" class="form-control" required />
-                            </div>
-                            <div class="position-relative form-group">
-                                <label class="font-weight-bold">Passwrd</label>
-                                <input placeholder="Password" type="password" class="form-control" required />
-                            </div>
-                            @*@if (ViewBag.InvalidLogin)
-                {
-                    <div class="text-danger p-2">
-                        <i class="fas fa-exclamation-triangle mr-1"></i>
-                        Invalid credentials!
-                    </div>
-                }*@
+                    <login-user inline-template>
+                        <validation-observer tag="div" ref="observer" v-slot="{ handleSubmit, valid, validate }">
+                            <div class="main-card mb-3">
+                                <form v-on:submit.prevent="handleSubmit(submit)" autocomplete="off">
+                                    <div class="position-relative form-group">
+                                        <input-field v-model="model.EmailAddress" rules="required|max:50|email" label="Email" name="Email" />
+                                    </div>
+                                    <div class="position-relative form-group">
+                                        <input-field v-model="model.Password" vid="confirmation" rules="required|max:128" label="Password" type="password" name="Password" minlength="8" />
+                                    </div>
+                                    <div class="form-group row" v-show="UsernameValidationMsg">
+                                        <div class="col-sm-3 "></div>
+                                        <div class="col-sm-9">
+                                            <label class="required-field-message">{{UsernameValidationMsg}}</label>
+                                        </div>
+                                    </div>
 
-                            <div asp-validation-summary="All" class="text-danger p-2"></div>
-
-                            <button type="submit" class="mt-1 btn btn-fluid no__border-radius btn-primary shadow">Login</button>
-                        </form>
-                    </div>
+                                    <button v-on:click="validate" type="submit" class="mt-1 btn btn-fluid no__border-radius btn-primary shadow">Login</button>
+                                </form>
+                            </div>
+                        </validation-observer>
+                    </login-user>
                 </div>
             </div>
         </div>

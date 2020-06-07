@@ -72,6 +72,7 @@ namespace Web
             })
             .AddCookie();
 
+
             services.Configure<IdentityOptions>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -151,6 +152,7 @@ namespace Web
             app.UseCors();
             app.UseAuthorization();
 
+            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

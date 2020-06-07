@@ -2,7 +2,7 @@
 import axios from "axios";
 import { ModalPlugin, TooltipPlugin, VBToggle, BCollapse } from "bootstrap-vue";
 import en from "vee-validate/dist/locale/en";
-import { min, max, email, required, numeric, min_value, alpha_num, regex } from "vee-validate/dist/rules";
+import { min, max, email, required, numeric, min_value, alpha_num, regex, confirmed} from "vee-validate/dist/rules";
 import { extend, ValidationObserver, ValidationProvider } from "vee-validate";
 import "datatables.net/js/jquery.dataTables";
 import "datatables.net-dt/js/dataTables.dataTables";
@@ -38,6 +38,7 @@ extend("regex", { ...regex, message: en.messages["regex"] });
 extend("email", { ...email, message: "This is not a valid email." });
 extend("required", { ...required, message: "This field must not be empty." });
 extend("numeric", { ...numeric, message: "This field must be numeric." });
+extend("confirmed", { ...confirmed, message: "This field should be matched." });
 
 extend('vatregno', (value) => {
     var re1 = new RegExp("^([0-9]+-[0-9]+)$");

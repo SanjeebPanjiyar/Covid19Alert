@@ -14,6 +14,8 @@ namespace Web.HtmlHelper
 
         public virtual string Label { get; set; }
 
+        public virtual string Vid { get; set; } = string.Empty;
+
         public virtual string Rules { get; set; } = string.Empty;
     }
 }

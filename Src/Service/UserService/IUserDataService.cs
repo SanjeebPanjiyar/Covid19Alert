@@ -1,5 +1,7 @@
-﻿using Infrastructure.BaseViewModel;
+﻿using Core.Entities;
+using Infrastructure.BaseViewModel;
 using Microsoft.AspNetCore.Identity;
+using Service.BaseViewModel;
 using Service.Enum;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,6 @@ namespace Service.UserService
     {
         public Task<IdentityResult> CreateUser(BaseApplicationUserViewModel user, string roleName);
 
-        public Task<LoginEnum> SigninUser(string email, string password);
+        public Task<SignInResponseModel> SigninUser(string email, string password);
     }
 }

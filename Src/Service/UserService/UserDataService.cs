@@ -1,10 +1,17 @@
 ﻿using Core.Entities;
 using Core.Entitities;
 using Infrastructure.BaseViewModel;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Serilog;
+using Service.BaseViewModel;
 using Service.Enum;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,10 +23,12 @@ namespace Service.UserService
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         public UserDataService(RoleManager<IdentityApplicationRole> roleManager,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
         }
         public async Task<IdentityResult> CreateUser(BaseApplicationUserViewModel user, string roleName)
         {
@@ -56,22 +65,43 @@ namespace Service.UserService
             return await _userManager.FindByEmailAsync(email);
         }
 
-        public async Task<LoginEnum> SigninUser(string email, string password)
+        public async Task<SignInResponseModel> SigninUser(string email, string password)
         {
+
+            var responseModel = new SignInResponseModel();
             var user = await GetUserByEmail(email);
-            
+
             if (user != null)
             {
                 if (await _userManager.CheckPasswordAsync(user, password))
                 {
-                    await _signInManager.SignInAsync(user, true);
-                    return LoginEnum.Successful;
+                    try
+                    {
+                        responseModel.User = new BaseApplicationUserViewModel()
+                        {
+                            Id = user.Id,
+                            Role = user.UserRoles.First().Role.Name
+                        };
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error(e, e.Message);
+                        responseModel.Login=LoginEnum.SignInError;
+                    }
+                    responseModel.Login = LoginEnum.Successful;
                 }
                 else
-                    return LoginEnum.PasswordMismatch;
+                {
+                    responseModel.Login = LoginEnum.PasswordMismatch;
+                }
+                    
             }
-            
-            return LoginEnum.EmailNotFound;
+            else
+            {
+                responseModel.Login = LoginEnum.EmailNotFound;
+            }
+
+            return responseModel;
         }
     }
 }

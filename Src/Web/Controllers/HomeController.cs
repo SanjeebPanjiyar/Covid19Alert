@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -10,13 +11,14 @@ using Web.Models;
 
 namespace Web.Controllers
 {
+    
     public class HomeController : BaseController
     {
         
         public IActionResult Index()
         {
             var exception = new Exception();
-            //Log.Error(exception, "test", "Email Service");
+            Log.Error(exception, "test", "Email Service");
             return View();
         }
 

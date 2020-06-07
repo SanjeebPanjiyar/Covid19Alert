@@ -1,11 +1,11 @@
 ﻿import Vue from "vue";
 import axios from "axios";
 
-Vue.component("registration-user", {
+Vue.component("login-user", {
     data() {
         return {
             services: {
-                create: "/account/create"
+                create: "/account/login"
             },
             model: {},
             UsernameValidationMsg: null
