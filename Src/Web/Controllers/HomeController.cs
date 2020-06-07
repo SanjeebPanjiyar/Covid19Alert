@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,7 +12,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    
+    //[Authorize(Roles = ConstantKey.GeneralRoleName)]
     public class HomeController : BaseController
     {
         

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Service.BaseViewModel;
 using Service.UserService;
 
 namespace Web.Controllers
@@ -25,9 +26,28 @@ namespace Web.Controllers
             _userDataService = userDataService;
             _signInManager = signInManager;
         }
-        public IActionResult Index()
+        private async Task signIn(SignInResponseModel signInModel)
         {
-            return View();
+            List<Claim> claims = new List<Claim>
+                    {
+                            new Claim(ClaimTypes.Role, signInModel.User.Role),
+                            new Claim(ClaimTypes.NameIdentifier, signInModel.User.Id.ToString())
+                    };
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                   new ClaimsPrincipal(claimsIdentity),
+                   new AuthenticationProperties
+                   {
+                       ExpiresUtc = DateTime.UtcNow.AddMinutes(60),
+                       IsPersistent = true,
+                       AllowRefresh = true
+                   });
+        }
+
+        private async Task signOut()
+        {
+            await HttpContext.SignOutAsync();
+            HttpContext.Session.Clear();
         }
 
         [HttpGet]
@@ -42,27 +62,11 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await HttpContext.SignOutAsync();
-                HttpContext.Session.Clear();
-
+                await signOut();
                 var signInModel = await _userDataService.SigninUser(user.EmailAddress, user.Password);
                 if(signInModel.Login==Service.Enum.LoginEnum.Successful)
                 {
-                    List<Claim> claims = new List<Claim>
-                    {
-                            new Claim(ClaimTypes.Role, signInModel.User.Role),
-                            new Claim(ClaimTypes.NameIdentifier, signInModel.User.Id.ToString())
-                    };
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                           new ClaimsPrincipal(claimsIdentity),
-                           new AuthenticationProperties
-                           {
-                               ExpiresUtc = DateTime.UtcNow.AddMinutes(60),
-                               IsPersistent = true,
-                               AllowRefresh = true
-                           });
-
+                    await signIn(signInModel);
                     return Ok();
                 }
                 else
@@ -80,7 +84,6 @@ namespace Web.Controllers
         {
             return View();
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] BaseApplicationUserViewModel user)

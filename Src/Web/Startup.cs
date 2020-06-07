@@ -23,6 +23,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using Service.UserService;
+using Microsoft.AspNetCore.Http;
 
 namespace Web
 {
@@ -150,9 +151,10 @@ namespace Web
             app.UseRouting();
             app.UseSession();
             app.UseCors();
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseAuthentication();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
