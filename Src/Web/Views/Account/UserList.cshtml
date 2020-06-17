@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewData["Title"] = "User List";
+}
+
+    <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <!-- NESTED-->
+            <div class="box" style="" data-collapsed="0">
+                <div class="box-body">
+                    <!-- Table -->
+                    <div class="row">
+                        <div class="col-md-6 mb-lg">
+                            <div class="box-heading">
+                                <div class="box-title">
+                                    <table id="userlist" class="display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>ID Number</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Phone Number</th>
+                                                <th>Email Address</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <link src="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet"/>
+        @section scripts{ 
+        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script>
+
+
+
+            $(document).ready(function () {
+                $('#userlist').DataTable({
+                    "ajax": {
+                        "url": "/Account/GetUserList",
+                        "dataSrc": '',
+                      "type": "GET",
+                      "datatype": "json"
+                   },
+                    //"processing": true,
+                    "serverSide": true,
+                    //"ajax": "/Account/GetUserList",
+                    "columns": [
+                       { "data": "IdNumber" },
+                       { "data": "FirstName" },
+                       { "data": "LastName" },
+                       { "data": "EmailAddress" },
+                       { "data": "PhoneNumber" },
+                    ]
+               
+                });
+            });
+        </script>
+       }

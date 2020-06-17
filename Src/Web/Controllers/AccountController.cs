@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Service.BaseViewModel;
 using Service.UserService;
+using Newtonsoft.Json;
 
 namespace Web.Controllers
 {
@@ -84,7 +85,23 @@ namespace Web.Controllers
         {
             return View();
         }
+        public IActionResult UserList()
+        {
+            return View();
+        }
+        public async Task<IActionResult> GetUserList()
+        {
+            List<BaseApplicationUserViewModel> userList = new List<BaseApplicationUserViewModel>() {
+                new BaseApplicationUserViewModel(){  FirstName="Imtiaz", LastName="Ahmed" , IdNumber="0001" , PhoneNumber = "01715052564" , EmailAddress="imtiazaiuib1@gmail.com" },
+            
+            };
+            var result = JsonConvert.SerializeObject(userList);
+            //var json = JsonSerializer.Serialize(userList);
+            return Ok(result);
+            //return View();  
+            //return json;
 
+        }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] BaseApplicationUserViewModel user)
         {
