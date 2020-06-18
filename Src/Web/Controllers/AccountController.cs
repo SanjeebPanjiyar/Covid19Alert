@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Service.BaseViewModel;
 using Service.UserService;
+using Web.CustomAttribute;
 
 namespace Web.Controllers
 {
@@ -20,11 +21,14 @@ namespace Web.Controllers
     {
         private readonly IUserDataService _userDataService;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IUserLocationService _userLocationService;
         public AccountController(IUserDataService userDataService,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IUserLocationService userLocationService)
         {
             _userDataService = userDataService;
             _signInManager = signInManager;
+            _userLocationService = userLocationService;
         }
         private async Task signIn(SignInResponseModel signInModel)
         {
@@ -51,9 +55,22 @@ namespace Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> LogOut()
+        {
+            await HttpContext.SignOutAsync();
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
         [AllowAnonymous]
         public IActionResult Login()
         {
+            if(User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index","Home");
+            }
             return View();
         }
 
@@ -80,6 +97,7 @@ namespace Web.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        [AnonymousOnly]
         public IActionResult Registration()
         {
             return View();
@@ -91,5 +109,21 @@ namespace Web.Controllers
             await _userDataService.CreateUser(user, ConstantKey.GeneralRoleName);
             return Ok();
         }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> GetCountOfNearByPatients([FromBody]LocationViewModel location)
+        {
+            var count =await _userLocationService.GetCountNearbyLocationAndSetLocation(UserId,location.Latitude, location.Longitude);
+            return Ok(count);
+        }
+
+        //[HttpPost]
+        //[Authorize]
+        //public async Task<IActionResult> SetConsent([FromBody]BaseApplicationUserViewModel user)
+        //{
+        //    ////;
+        //    //return Ok(count);
+        //}
     }
 }

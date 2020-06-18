@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Entitities;
+using Core.Interfaces;
 using Infrastructure.BaseViewModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -21,22 +22,29 @@ namespace Service.UserService
     {
         private readonly RoleManager<IdentityApplicationRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IRepository _repository;
+
         public UserDataService(RoleManager<IdentityApplicationRole> roleManager,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            IRepository repository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _signInManager = signInManager;
+            _repository = repository;
         }
+
+        private async Task<ApplicationUser> GetUserByEmail(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
+        }
+
         public async Task<IdentityResult> CreateUser(BaseApplicationUserViewModel user, string roleName)
         {
             var userToCreate = new ApplicationUser
             {
                 Id = Guid.NewGuid(),
                 FirstName = user.FirstName,
-                LastName= user.LastName,
+                LastName = user.LastName,
                 UserName = user.EmailAddress,
                 PhoneNumber = user.PhoneNumber,
                 NormalizedUserName = user.EmailAddress.ToUpper(),
@@ -44,25 +52,21 @@ namespace Service.UserService
                 NormalizedEmail = user.EmailAddress.ToUpper(),
                 SecurityStamp = Guid.NewGuid().ToString(),
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
-                IdNumber=  user.IdNumber.ToUpper(),
+                IdNumber = user.IdNumber.ToUpper(),
                 TwoFactorEnabled = false,
                 LockoutEnabled = false,
                 AccessFailedCount = 0,
                 IsDeleted = false,
                 EntryDate = DateTime.UtcNow,
             };
-            var result=await _userManager.CreateAsync(userToCreate, user.Password);
-            var role = await _roleManager.FindByNameAsync(roleName:roleName);
-            if (result.Succeeded) {
-                result= await _userManager.AddToRoleAsync(userToCreate, role.Name);
+            var result = await _userManager.CreateAsync(userToCreate, user.Password);
+            var role = await _roleManager.FindByNameAsync(roleName: roleName);
+            if (result.Succeeded)
+            {
+                result = await _userManager.AddToRoleAsync(userToCreate, role.Name);
             }
             return result;
 
-        }
-
-        public async Task<ApplicationUser> GetUserByEmail(string email)
-        {
-            return await _userManager.FindByEmailAsync(email);
         }
 
         public async Task<SignInResponseModel> SigninUser(string email, string password)
@@ -86,7 +90,7 @@ namespace Service.UserService
                     catch (Exception e)
                     {
                         Log.Error(e, e.Message);
-                        responseModel.Login=LoginEnum.SignInError;
+                        responseModel.Login = LoginEnum.SignInError;
                     }
                     responseModel.Login = LoginEnum.Successful;
                 }
@@ -94,7 +98,7 @@ namespace Service.UserService
                 {
                     responseModel.Login = LoginEnum.PasswordMismatch;
                 }
-                    
+
             }
             else
             {
@@ -102,6 +106,39 @@ namespace Service.UserService
             }
 
             return responseModel;
+        }
+
+        public async Task<IList<BaseApplicationUserViewModel>> GetUserList(int pageIndex = 0, int count = 10, string IdNumber = null)
+        {
+            var userList = _repository.Query<ApplicationUser>();
+
+            if (!string.IsNullOrEmpty(IdNumber))
+            {
+                userList = userList.Where(x => x.IdNumber.Equals(IdNumber));
+            }
+            userList = userList.Skip(pageIndex * count).Take(count);
+
+            var userModelList = await Task.Run(() => userList.Select(x => new BaseApplicationUserViewModel
+            {
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                IdNumber = x.IdNumber,
+                Id = x.Id
+            }).ToList());
+
+            return userModelList;
+        }
+
+        public bool GetConsentofUser(Guid UserId)
+        {
+            return _repository.Query<ApplicationUser>().Where(x => x.Id.Equals(UserId)).FirstOrDefault().ConsentGiven;
+        }
+
+        public async Task UpdateConsent(Guid UserId)
+        {
+            var user = await _userManager.FindByIdAsync(UserId.ToString());
+            user.ConsentGiven = true;
+            await _userManager.UpdateAsync(user);
         }
     }
 }

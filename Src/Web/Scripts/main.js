@@ -29,6 +29,7 @@ import "datatables.net-select-bs4/css/select.bootstrap4.css";
 
 import "./core";
 import "./account";
+import "./user";
 
 extend("min", { ...min, message: en.messages["min"] });
 extend("max", { ...max, message: en.messages["max"] });

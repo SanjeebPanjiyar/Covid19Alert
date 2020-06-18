@@ -49,6 +49,7 @@ namespace Web
         {
             services.AddScoped<IRepository, GenericRepository>();
             services.AddScoped<IUserDataService, UserDataService>();
+            services.AddScoped<IUserLocationService, UserLocationService>();
         }
 
         private void configureDatabaseAndIdentity(IServiceCollection services)

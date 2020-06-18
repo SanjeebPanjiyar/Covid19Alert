@@ -22,6 +22,8 @@ namespace Core.Entities
 
         [Column(TypeName = "datetime")]
         public DateTime? LastLoginDate { get; set; }
+        public bool MarkAsCovid19 { get; set; }
+        public bool ConsentGiven { get; set; }
         public virtual ICollection<AspNetUserRole> UserRoles { get; set; }
 
         public virtual UserLocation Location { get; set;}

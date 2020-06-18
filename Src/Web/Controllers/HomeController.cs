@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Service.UserService;
 using Web.Models;
 
 namespace Web.Controllers
@@ -15,12 +16,21 @@ namespace Web.Controllers
     //[Authorize(Roles = ConstantKey.GeneralRoleName)]
     public class HomeController : BaseController
     {
-        
+        private readonly IUserDataService _userDataService;
+        public HomeController(IUserDataService userDataService)
+        {
+            _userDataService = userDataService;
+        }
         public IActionResult Index()
         {
-            var exception = new Exception();
-            Log.Error(exception, "test", "Email Service");
-            return View();
+            bool consentGiven = false;
+            //var exception = new Exception();
+            if (User.Identity.IsAuthenticated)
+            {
+                consentGiven = _userDataService.GetConsentofUser(UserId);
+            }
+            //Log.Error(exception, "test", "Email Service");
+            return View(consentGiven);
         }
 
         public IActionResult Privacy()

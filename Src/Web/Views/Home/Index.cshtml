@@ -1,4 +1,5 @@
-﻿@{
+﻿@model bool
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,3 +7,12 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+@if (User.Identity.IsAuthenticated)
+{
+    <track-user inline-template :consent="@Model.ToString().ToLower()">
+        <div class="text-center" v-cloak>
+            <h1 v-if="ConsentGiven===false">Please give permission to get your location!</h1>
+            <h1 v-if="Count!==0">NearBy Covid19 Patient!</h1>
+        </div>
+    </track-user>
+}

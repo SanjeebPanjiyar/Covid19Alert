@@ -15,5 +15,11 @@ namespace Service.UserService
         public Task<IdentityResult> CreateUser(BaseApplicationUserViewModel user, string roleName);
 
         public Task<SignInResponseModel> SigninUser(string email, string password);
+
+        Task<IList<BaseApplicationUserViewModel>> GetUserList(int pageIndex = 0, int count = 10, string IdNumber = null);
+
+        public bool GetConsentofUser(Guid UserId);
+
+        public Task UpdateConsent(Guid UserId);
     }
 }
