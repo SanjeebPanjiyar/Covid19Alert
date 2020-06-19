@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "User List";
 }
-
+<admin-user-list inline-template>
     <div class="card">
         <div class="card-header">
         </div>
@@ -36,33 +36,4 @@
             </div>
         </div>
     </div>
-        <link src="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet"/>
-        @section scripts{ 
-        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-        <script>
-
-
-
-            $(document).ready(function () {
-                $('#userlist').DataTable({
-                    "ajax": {
-                        "url": "/Account/GetUserList",
-                        "dataSrc": '',
-                      "type": "GET",
-                      "datatype": "json"
-                   },
-                    //"processing": true,
-                    "serverSide": true,
-                    //"ajax": "/Account/GetUserList",
-                    "columns": [
-                       { "data": "IdNumber" },
-                       { "data": "FirstName" },
-                       { "data": "LastName" },
-                       { "data": "EmailAddress" },
-                       { "data": "PhoneNumber" },
-                    ]
-               
-                });
-            });
-        </script>
-       }
+</admin-user-list>

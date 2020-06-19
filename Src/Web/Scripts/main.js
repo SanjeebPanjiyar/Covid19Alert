@@ -4,7 +4,7 @@ import { ModalPlugin, TooltipPlugin, VBToggle, BCollapse } from "bootstrap-vue";
 import en from "vee-validate/dist/locale/en";
 import { min, max, email, required, numeric, min_value, alpha_num, regex, confirmed} from "vee-validate/dist/rules";
 import { extend, ValidationObserver, ValidationProvider } from "vee-validate";
-import "datatables.net/js/jquery.dataTables";
+import "datatables.net/js/jquery.dataTables.min.js";
 import "datatables.net-dt/js/dataTables.dataTables";
 import "jszip/dist/jszip";
 import "pdfmake/build/pdfmake";
@@ -30,6 +30,7 @@ import "datatables.net-select-bs4/css/select.bootstrap4.css";
 import "./core";
 import "./account";
 import "./user";
+import "./admin";
 
 extend("min", { ...min, message: en.messages["min"] });
 extend("max", { ...max, message: en.messages["max"] });

@@ -31,7 +31,7 @@ Vue.component("registration-user", {
             axios.post(vm.services.create, this.model).then(response => {
                 Vue.set(vm, "UsernameValidationMsg", null);
                 vm.handleSubmit();
-                location.reload();
+                location.assign("/account/login");
                 //vm.reset();
             }).catch((error) => {
                 Vue.set(vm, "UsernameValidationMsg", error.response.data);

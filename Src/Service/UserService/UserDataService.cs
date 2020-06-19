@@ -84,7 +84,7 @@ namespace Service.UserService
                         responseModel.User = new BaseApplicationUserViewModel()
                         {
                             Id = user.Id,
-                            Role = user.UserRoles.First().Role.Name
+                            Role = user.UserRoles.First().Role.NormalizedName
                         };
                     }
                     catch (Exception e)
@@ -124,7 +124,9 @@ namespace Service.UserService
                 FirstName = x.FirstName,
                 LastName = x.LastName,
                 IdNumber = x.IdNumber,
-                Id = x.Id
+                Id = x.Id,
+                PhoneNumber = x.PhoneNumber,
+                EmailAddress = x.Email
             }).ToList());
 
             return userModelList;
