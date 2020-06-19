@@ -63,7 +63,7 @@ namespace Service.UserService
             var role = await _roleManager.FindByNameAsync(roleName: roleName);
             if (result.Succeeded)
             {
-                result = await _userManager.AddToRoleAsync(userToCreate, role.Name);
+                result = await _userManager.AddToRoleAsync(userToCreate, role.NormalizedName);
             }
             return result;
 
@@ -91,6 +91,7 @@ namespace Service.UserService
                     {
                         Log.Error(e, e.Message);
                         responseModel.Login = LoginEnum.SignInError;
+                        return responseModel;
                     }
                     responseModel.Login = LoginEnum.Successful;
                 }

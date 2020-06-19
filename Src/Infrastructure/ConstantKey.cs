@@ -7,6 +7,6 @@ namespace Infrastructure
     public static class ConstantKey
     {
         public const string AdminRoleName = "Administrator";
-        public const string GeneralRoleName = "GeneralMember";
+        public const string GeneralRoleName = "General Member";
     }
 }

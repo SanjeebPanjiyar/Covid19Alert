@@ -42,7 +42,7 @@ namespace Service.UserService
                 await _repository.Update(location);
             }
 
-            var count = _repository.Query<UserLocation>(x => !x.UserId.Equals(userid) && x.Location.Distance(currentLocation) <= 2).Count();
+            var count = _repository.Query<UserLocation>(x => !x.UserId.Equals(userid) && x.Location.IsWithinDistance(currentLocation,2)).Count();
 
             return count;
         }

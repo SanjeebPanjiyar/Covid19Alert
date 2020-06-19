@@ -118,12 +118,12 @@ namespace Web.Controllers
             return Ok(count);
         }
 
-        //[HttpPost]
-        //[Authorize]
-        //public async Task<IActionResult> SetConsent([FromBody]BaseApplicationUserViewModel user)
-        //{
-        //    ////;
-        //    //return Ok(count);
-        //}
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> SetConsent()
+        {
+            await _userDataService.UpdateConsent(UserId); 
+            return Ok();
+        }
     }
 }

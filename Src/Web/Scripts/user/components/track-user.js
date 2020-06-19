@@ -3,12 +3,13 @@ import axios from "axios";
 
 Vue.component("track-user", {
 
-    props: [consent],
+    props: ["consent"],
 
     data() {
         return {
             services: {
-                saveLocation: "/Account/GetCountOfNearByPatients"
+                saveLocation: "/Account/GetCountOfNearByPatients",
+                setConsent: "/Account/SetConsent"
             },
             model: {},
             Count: 0,
@@ -25,6 +26,7 @@ Vue.component("track-user", {
         Vue.set(vm, "model", {});
         Vue.set(vm.model, "Latitude", 0);
         Vue.set(vm.model, "Longitude", 0);
+        Vue.set(vm, "ConsentGiven", this.consent);
         if (vm.ConsentGiven) {
             navigator.geolocation.watchPosition((pos) => { vm.success(pos, vm) }, vm.error, vm.options);
         }  
@@ -47,6 +49,16 @@ Vue.component("track-user", {
             }
         },
 
+        giveLocationPermission: function (event) {
+            const vm = this;
+            axios.post(vm.services.setConsent).then(response => {
+                location.reload();
+                //vm.reset();
+            }).catch((error) => {
+                console.log(error.response.data);
+            });
+        },
+
         error(err) {
             console.warn('ERROR(' + err.code + '): ' + err.message);
         },
@@ -59,7 +71,7 @@ Vue.component("track-user", {
             const vm = this;
             axios.post(vm.services.saveLocation, this.model).then(response => {
                 console.log(response.data);
-                Vue.set(vm.model, "Count", response.data);
+                Vue.set(vm, "Count", response.data);
                 //vm.reset();
             }).catch((error) => {
                 Vue.set(vm, "UsernameValidationMsg", error.response.data);
@@ -68,33 +80,3 @@ Vue.component("track-user", {
         }
     }
 });
-
-/*
-function success(pos) {
-    var crd = pos.coords;
-    if (target.latitude != crd.latitude && target.longitude != crd.longitude) {
-        console.log(crd.latitude, crd.longitude);
-        target.latitude = crd.latitude;
-        target.longitude = crd.longitude;
-    }
-
-}
-
-function error(err) {
-    console.warn('ERROR(' + err.code + '): ' + err.message);
-}
-
-target = {
-    latitude: 0,
-    longitude: 0
-};
-
-options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0
-};
-
-id = navigator.geolocation.watchPosition(success, error, options);
-https://www.markopapic.com/finding-nearby-users-using-ef-core-spatial-data/
-*/

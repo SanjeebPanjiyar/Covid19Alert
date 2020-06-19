@@ -9,9 +9,12 @@
 </div>
 @if (User.Identity.IsAuthenticated)
 {
-    <track-user inline-template :consent="@Model.ToString().ToLower()">
-        <div class="text-center" v-cloak>
-            <h1 v-if="ConsentGiven===false">Please give permission to get your location!</h1>
+    <track-user inline-template :consent="@Model.ToString().ToLower()" >
+        <div class="text-center"  v-cloak>
+            <div v-if="ConsentGiven===false">
+                <h1>Please give permission to get your location!</h1>
+                <button v-on:click="giveLocationPermission" type="button" class="mt-1 btn btn-fluid no__border-radius btn-primary shadow">Give Location Permission</button>
+            </div>
             <h1 v-if="Count!==0">NearBy Covid19 Patient!</h1>
         </div>
     </track-user>
