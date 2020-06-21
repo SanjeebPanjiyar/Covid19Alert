@@ -20,13 +20,18 @@ Vue.component("admin-user-list", {
             }
         };
     }, mounted() {
-        $('#userlist').DataTable({
+        var table = $('#userlist').DataTable({
             "ajax": {
                 "url": "/Admin/GetUserList",
                 "dataSrc": '',
                 "type": "GET",
                 "datatype": "json"
             },
+	        "columnDefs": [{
+            	"targets": -1,
+            	"data": null,
+            	"defaultContent": "<button>Mark</button>"
+            }],
             //"processing": true,
             "serverSide": true,
             //"ajax": "/Account/GetUserList",
@@ -35,8 +40,14 @@ Vue.component("admin-user-list", {
                 { "data": "FirstName" },
                 { "data": "LastName" },
                 { "data": "EmailAddress" },
-                { "data": "PhoneNumber" }
+                { "data": "PhoneNumber" },
+                { "data": "CovidStatus" },
+                { "data": "IdNumber" },
             ]
+        });
+        $('#userlist tbody').on( 'click', 'button', function () {
+            var data = table.row( $(this).parents('tr') ).data();
+            alert( data[0] );
         });  
     },
 
