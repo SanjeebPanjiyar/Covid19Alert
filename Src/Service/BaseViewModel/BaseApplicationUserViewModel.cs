@@ -25,5 +25,7 @@ namespace Infrastructure.BaseViewModel
         public string RoleName { get; set; }
         public Guid? RoleId { get; set; }
         public bool ConsentGiven { get; set; }
+
+        public bool CovidStatus { get; set; }
     }
 }

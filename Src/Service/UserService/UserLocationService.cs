@@ -1,4 +1,5 @@
-﻿using Core.Entitities;
+﻿using Core.Entities;
+using Core.Entitities;
 using Core.Interfaces;
 using NetTopologySuite.Geometries;
 using System;
@@ -42,8 +43,9 @@ namespace Service.UserService
                 await _repository.Update(location);
             }
 
-            var count = _repository.Query<UserLocation>(x => !x.UserId.Equals(userid) && x.Location.IsWithinDistance(currentLocation,2)).Count();
-
+            var userIDs = _repository.Query<UserLocation>(x => !x.UserId.Equals(userid) && x.Location.IsWithinDistance(currentLocation, 2)).Select(x => x.UserId);
+            var  users= _repository.Query<ApplicationUser>().Where(x=> userIDs.Contains(x.Id));
+            var count = users.Count(x => x.MarkAsCovid19);
             return count;
         }
     }

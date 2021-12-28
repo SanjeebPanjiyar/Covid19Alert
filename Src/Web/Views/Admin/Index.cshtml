@@ -1,39 +1,32 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "User List";
 }
-<admin-user-list inline-template>
+<admin-user-edit inline-template>
     <div class="card">
-        <div class="card-header">
-        </div>
         <div class="card-body">
             <!-- NESTED-->
             <div class="box" style="" data-collapsed="0">
                 <div class="box-body">
                     <!-- Table -->
                     <div class="row">
-                        <div class="col-md-6 mb-lg">
-                            <div class="box-heading">
-                                <div class="box-title">
-                                    <table id="userlist" class="display" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>ID Number</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Phone Number</th>
-                                                <th>Email Address</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                        <div class="col-md-12">
+                            <table id="userlist" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID Number</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Email Address</th>
+                                        <th>Covid Status</th>
+                                        <th>Profile</th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</admin-user-list>
+</admin-user-edit>

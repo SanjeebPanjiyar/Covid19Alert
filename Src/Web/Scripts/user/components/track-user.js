@@ -29,7 +29,12 @@ Vue.component("track-user", {
         Vue.set(vm, "ConsentGiven", this.consent);
         if (vm.ConsentGiven) {
             navigator.geolocation.watchPosition((pos) => { vm.success(pos, vm) }, vm.error, vm.options);
-        }  
+        }
+        if (vm.ConsentGiven) {
+            setInterval(function () {
+                vm.saveLocation();
+            }, 5000);
+        }
     },
 
     computed: {
@@ -69,6 +74,7 @@ Vue.component("track-user", {
 
         saveLocation() {
             const vm = this;
+            if (vm.model.Latitude === 0) return;
             axios.post(vm.services.saveLocation, this.model).then(response => {
                 console.log(response.data);
                 Vue.set(vm, "Count", response.data);

@@ -1,1 +1,1 @@
-﻿import "./components/admin-user-list";
+﻿import "./components/admin-user-edit";

@@ -21,5 +21,9 @@ namespace Service.UserService
         public bool GetConsentofUser(Guid UserId);
 
         public Task UpdateConsent(Guid UserId);
+
+        public Task ChangeCovidMark(Guid UserId);
+
+        public Task<BaseApplicationUserViewModel> GetUserById(string Id);
     }
 }

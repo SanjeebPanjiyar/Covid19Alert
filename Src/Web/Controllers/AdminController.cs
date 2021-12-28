@@ -26,8 +26,26 @@ namespace Web.Controllers
         public async Task<IActionResult> GetUserList()
         {
             var userList = await _userDataService.GetUserList();
-            var result = JsonConvert.SerializeObject(userList);
+            var result = JsonConvert.SerializeObject(new
+            {
+                status = "success",
+                data = userList
+            });
+
             return Ok(result);
+        }
+
+        public IActionResult UserDetail(string id)
+        {
+            var user = _userDataService.GetUserById(id);
+            return View(user);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateStatus(Guid id)
+        {
+            await _userDataService.ChangeCovidMark(id);
+            return Ok();
         }
     }
 }

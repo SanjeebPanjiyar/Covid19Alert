@@ -126,11 +126,33 @@ namespace Service.UserService
                 IdNumber = x.IdNumber,
                 Id = x.Id,
                 PhoneNumber = x.PhoneNumber,
-                EmailAddress = x.Email
+                EmailAddress = x.Email,
+                CovidStatus= x.MarkAsCovid19
             }).ToList());
 
             return userModelList;
         }
+
+        public async Task<BaseApplicationUserViewModel> GetUserById(string Id)
+        {
+            var user = await _userManager.FindByIdAsync(Id);
+
+            if (user == null) return null;
+
+            var userModel = new BaseApplicationUserViewModel
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                IdNumber = user.IdNumber,
+                Id = user.Id,
+                PhoneNumber = user.PhoneNumber,
+                EmailAddress = user.Email,
+                CovidStatus = user.MarkAsCovid19
+            };
+
+            return userModel;
+        }
+
 
         public bool GetConsentofUser(Guid UserId)
         {
@@ -143,5 +165,13 @@ namespace Service.UserService
             user.ConsentGiven = true;
             await _userManager.UpdateAsync(user);
         }
+
+        public async Task ChangeCovidMark(Guid UserId)
+        {
+            var user = await _userManager.FindByIdAsync(UserId.ToString());
+            user.MarkAsCovid19 = !user.MarkAsCovid19;
+            await _userManager.UpdateAsync(user);
+        }
+
     }
 }
